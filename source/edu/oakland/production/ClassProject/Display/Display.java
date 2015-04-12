@@ -6,45 +6,141 @@ import java.util.*;
 
 /**
  * 
- * @author Display Group
- * @version 4.0 Actually closer to working.
- * @since 3/30/2015
+ * @author Display Group Mel Chi Ben Dickman and the whole group.
+ * @version 5.0 Half of part 1A works, part 1B no go, part 1C no go, part 2 done.
+ * @since 4/11/2015
  */
 public class Display {
+	
+	/**
+	 * boolean runnable
+	 */
 	private boolean runnable;
+	
+	/**
+	 * first run boolean for a different prompt the first time
+	 */
 	private boolean isFirstRun = true;
+	
+	/**
+	 * boolean to see if the arrayList is yes or no
+	 */
 	private boolean arrayList;
+	
+	/**
+	 * binary option
+	 */
 	private boolean binaryOption;
+	
+	/**
+	 * hash table option to check for input
+	 */
 	private boolean hashTableOption;
+	/**
+	 * Student option for students
+	 */
 	private boolean studentOption;
+	
+	/**
+	 * Search option boolean to check if input search option is correct
+	 */
 	private boolean searchOption;
+	
+	/**
+	 * Scanner variable for input scan
+	 */
 	private Scanner scan;
-	private int menuKey;
+
+	/**
+	 * menuString that takes the scan input
+	 */
 	private String menuString;
+	
+	/**
+	 * Middleware object class instance
+	 */
 	private Middleware middleware = new Middleware();
+	
+	/**
+	 * value when we get a return time to put in
+	 */
 	private long returnTime;
 	
+	/**
+	 * String builder sb for junit test
+	 */
 	StringBuilder sb = new StringBuilder();
 
 	// First, second, and third search values.
+	
+	/**
+	 * search variable 1
+	 */
 	private int a = -1;
+	
+	/**
+	 * search variable 2
+	 */
 	private int b;
+	
+	/**
+	 * search variable 3
+	 */
 	private int c;
 
-	private final int E_100K = 100;
-	private final int E_200K = 200;
-	private final int E_400K = 400;
+	/**
+	 * final value for 100k
+	 */
+	private final int E_100K = 1000;
+	
+	/**
+	 * final value for 200k
+	 */
+	private final int E_200K = 200000;
+	
+	/**
+	 * final value for 400k
+	 */
+	private final int E_400K = 400000;
 
+	/**
+	 * Total Student Count
+	 */
+	private int totalStudentCount = 0;
+	/**
+	 * cut students amount
+	 */
+	private int cutStudentAmount = 0;
+	
+	/** 
+	 * amount of scholarship students
+	 */
+	private int scholarshipStudent = 0;
+	
+	/**
+	 * Default constructor for runnable and system.in
+	 */
+	public Display() {
+		this.runnable = true;
+		this.scan = new Scanner(System.in);
+	}
+	
+	
+	/**
+	 * Constructor that takes in a string instead of system.in
+	 * @param jUnitTesting
+	 */
 	public Display(String jUnitTesting) {
 		this.runnable = true;
 		this.scan = new Scanner(jUnitTesting);
 	}
 
-	public Display() {
-		this.runnable = true;
-		this.scan = new Scanner(System.in);
-	}
 
+	/**
+	 * Menu option for number of elements
+	 * @param menuString the scan.next value
+	 * @return returns num of elements
+	 */
 	private int getNumOfElements(String menuString) {
 		int numOfElements;
 
@@ -67,14 +163,21 @@ public class Display {
 		return numOfElements;
 	}
 
+	/**
+	 * Method just prints print element choices
+	 */
 	private void printElementChoices() {
-		System.out.println("1. 100 elements.");
-		System.out.println("2. 200 elements.");
-		System.out.println("3. 400 elements.");
+		System.out.println("1. 100k elements.");
+		System.out.println("2. 200k elements.");
+		System.out.println("3. 400k elements.");
 	}
 
+	/**
+	 * main method for display
+	 * @return String of certain inputs, the students cut and the student on scholarship
+	 */
 	public String runMainMenu() {
-
+		sb = new StringBuilder();
 		while (runnable) {
 			if (isFirstRun) {
 				System.out
@@ -115,7 +218,6 @@ public class Display {
 							+ String.format("%,d", numOfElements)
 							+ " elements.");
 					middleware.setNumberOfElements(numOfElements);
-
 					middleware.createArrayList();
 					returnTime = middleware.sortArrayList(true);
 					System.out
@@ -131,24 +233,12 @@ public class Display {
 							+ middleware.bigOAL(true) + "\n\t Linked List: "
 							+ middleware.bigOLL(true));
 
-					// /Show Big Oh
-					// int [] BigO = middleware.getBigOData();
-					// System.out.println("The big oh data is: ");
-					// for (int i = 0; i < BigO.length; i++){
-					// System.out.println(BigO[i];
-					// }
-
-					// System.out.println("The big O dependency is " +
-					// middleware.bigO);
-
-					returnTime = middleware.sortLinkedList(false);
-					System.out
-							.println("The time for LinkedList bubble sort was: "
-									+ returnTime + " ms");
 					returnTime = middleware.sortArrayList(false);
-					System.out
-							.println("The search time for arrayList bubble sort was: "
-									+ returnTime + " ms");
+					System.out.println("The search time for arrayList bubble sort was: "+ returnTime + " ms");
+					
+					//returnTime = middleware.sortLinkedList(false);
+					System.out.println("The time for LinkedList bubble sort was: "+ returnTime + " ms");
+
 					// System.out.println("The search time for LinkedListbubble sort was: "
 					// + returnTime);
 
@@ -156,6 +246,7 @@ public class Display {
 					System.out.println("The big O data is:\n\t ArrayList: "
 							+ middleware.bigOAL(false) + "\n\t Linked List: "
 							+ middleware.bigOLL(false));
+
 
 					searchOption = true;
 					while (searchOption) {
@@ -186,7 +277,7 @@ public class Display {
 								returnTime = middleware.searchArrayList(
 										searchInt, true);
 								System.out
-										.println("The time for LinkedList Binary search was: "
+										.println("The time for ArrayList Binary search was: "
 												+ returnTime + " ms");
 
 								searchOption = false;
@@ -571,6 +662,10 @@ public class Display {
 	 * "10", "10", 10, 10); return true; }
 	 */
 
+	/**
+	 * Creates class preloaded so we don't need to type it out
+	 * @return true if successful
+	 */
 	private boolean createClass2() {
 		this.totalStudentCount = 10;
 		middleware.setStackSize(this.totalStudentCount);
@@ -589,17 +684,17 @@ public class Display {
 	}
 
 	
-	private int totalStudentCount = 0;
-	private int cutStudentAmount = 0;
-	private int scholarshipStudent = 0;
-	
+
+	/**
+	 * Create students, must create at least 10
+	 * @return true if successful, crashes if isn't
+	 */
 	private boolean createClass() {
 
 		boolean stayIn = true;
 		boolean notSuccessful = true;
 		int counter = 0;
 		String tempToParse;
-		String temp;
 		int grizzlyID = -1;
 		String name;
 		String major;
@@ -689,7 +784,7 @@ public class Display {
 			} while (notSuccessful);
 			notSuccessful = true;
 
-			// / Create the student
+			//Create the student
 			middleware.createStudent(grizzlyID, name, major, gpa, thesisGrade);
 
 			counter++;
@@ -699,27 +794,5 @@ public class Display {
 		} 
 		return true;
 	}
-
-	/**
-	 * Prints a string while checking if it is being tested.
-	 * 
-	 * @param strtoPrint
-	 *            String that is considered for being printed.
-	 * @return String to print, if being tested.
-	 */
-	/*
-	 * private String print(String strToPrint) { if(testing) { // private
-	 * boolean testing; Doesn't exist yet. Would be set in the Display()
-	 * constructor. return strToPrint; } else System.out.print(strtoPrint); //
-	 * Would require manual use of newlines. }
-	 */
-	// For this to work, mainMenu() would have to be of type string.
-	// Tests classes would do str = display.mainMenu();
-	// They would then process str for whatever information they need.
-	// Important information would be printed out using print()
-	// Which would either transparently print the information or
-	// add it to a string for mainMenu() to return when it completes.
-	// This may not be the best idea, which is why I haven't implemented it
-	// myself. However, I believe it would at least work.
 
 }

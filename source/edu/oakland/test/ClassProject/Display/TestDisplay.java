@@ -8,6 +8,9 @@ import junit.framework.*;
  */
 public class TestDisplay extends TestCase{
 
+	/**
+	 * Tests the display to for 1 student cut and 1 scholarship student to get the return value correct
+	 */
 	public void testStack(){
 	       Display display = new Display("44 1 1 1 1 1 5");
 	       
