@@ -71,24 +71,13 @@ public class MidArrayList {
 		Integer temp = theArray.getStudent(indexOne);
 		theArray.setStudent(indexOne,theArray.getStudent(indexTwo));
 		theArray.setStudent(indexTwo,temp);
-	
-	//	ArrayList<Integer> theSwap = new ArrayList<Integer>(arraySize);
-	//	for(int i = 0; i < arraySize; i++)
-	//	{
-	//		theSwap.add(theArray.getStudent(i));
-	//	}
-	//	
-	//	Collections.swap(theSwap, indexOne, indexTwo);
-	//	
-	//	theArray.setStudent(indexOne,theSwap.get(indexOne));
-	//	theArray.setStudent(indexTwo,theSwap.get(indexTwo));
 	}
 	
 	/**
 	*Clears the array of students
 	*/
 	public void clearArray(){
-		//System.out.println("Clearing all students...");
+
 		theArray.clearAllStudents();
 	}
 	
@@ -97,7 +86,7 @@ public class MidArrayList {
 	*@return total time taken as a "long"
 	*/
 	public long bubbleSort(){
-		//System.out.println("Bubble sort initialized");
+
 		
 		cyclesBS = 0;
 		startTime = System.currentTimeMillis();
@@ -196,8 +185,6 @@ public class MidArrayList {
 		}
 
 		endTime = System.currentTimeMillis();
-
-		System.out.println("Binary search took " + (endTime - startTime) + " ms");
 		
 		//System.out.println("Times through: " + timesThrough);
 		

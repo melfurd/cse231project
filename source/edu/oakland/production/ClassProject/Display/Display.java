@@ -94,12 +94,11 @@ public class Display {
 	/**
 	 * final value for 100k
 	 */
-	private final int E_100K = 100000;
-	
+	private int E_100K = 1000;
 	/**
 	 * final value for 200k
 	 */
-	private final int E_200K = 200000;
+	private final int E_200K = 2000;
 	
 	/**
 	 * final value for 400k
@@ -121,8 +120,19 @@ public class Display {
 	private int scholarshipStudent = 0;
 	
 	/**
+	 * Holds a temp value
+	 */
+	private int tempValueHold = 0;
+	/**
 	 * Default constructor for runnable and system.in
 	 */
+	
+
+	
+	public String middlewhereString;
+	public StringBuilder middlewhereStringBuilder = new StringBuilder();
+	public MockMiddlewhere middlewhere = new MockMiddlewhere();
+	
 	public Display() {
 		this.runnable = true;
 		this.scan = new Scanner(System.in);
@@ -137,6 +147,15 @@ public class Display {
 		this.runnable = true;
 		this.scan = new Scanner(jUnitTesting);
 	}
+	
+	/**
+	 * Sets the 100k value in case of testing because 100k is way too high for LinkedList
+	 * @param value the value
+	 */
+	public void set100kValueForTest(int value){
+		this.E_100K = value;
+	}
+
 
 
 	/**
@@ -170,9 +189,9 @@ public class Display {
 	 * Method just prints print element choices
 	 */
 	private void printElementChoices() {
-		System.out.println("1. 100k elements.");
-		System.out.println("2. 200k elements.");
-		System.out.println("3. 400k elements.");
+		System.out.println("1. " + String.format("%,d", E_100K) + " elements.");
+		System.out.println("2. " + String.format("%,d", E_200K) + " elements.");
+		System.out.println("3. " + String.format("%,d", E_400K) + " elements.");
 	}
 
 
@@ -185,11 +204,12 @@ public class Display {
 		while (runnable) {
 			if (isFirstRun) {
 				System.out
-						.println("Hello. Please press the corresponding key to enter the JCF container: ");
+						.println("Herro. Please press the corresponding key to enter the JCF container: ");
 				this.isFirstRun = false;
 			} else {
 				System.out
-						.println("\nHello again! Please press the corresponding key to enter the JCF container: ");
+						.println("\nHerro again! Please press the corresponding key to enter the JCF container: ");
+
 			}
 
 			System.out.println("1. ArrayList and Linked List"); // Part 1: A
@@ -218,31 +238,56 @@ public class Display {
 						continue;
 					
 					System.out.println("You have selected " + String.format("%,d", numOfElements) + " elements.");
+					
 					middleware.setNumberOfElements(numOfElements);
 					
+					//JUNIT
+					middlewhere.setNumberOfElements(numOfElements);
 					
 					middleware.createArrayList();
 					middleware.llMW(numOfElements);
+					
+					//JUNIT
+					middlewhere.createArrayList();
+					middlewhere.llMW(numOfElements);
+															
+					
 					returnTime = middleware.sortArrayList(true);
 					System.out.println("The search time for arrayList selection sort was: " + returnTime + " ms");
 					returnTime = middleware.sortLinkedList(true);
 					System.out.println("The time for LinkedList selection sort was: " + returnTime + " ms");
-						
+			
+										
 					///Show Big Oh
 					System.out.println("The big o data is: \n\t ArrayList: " + middleware.bigOAL(true) + "\n\t Linked List: " + middleware.bigOLL(true));
 						
+					
+					//JUNIT
+					middlewhereStringBuilder.append(middlewhere.sortArrayList(true));
+					middlewhereStringBuilder.append(middlewhere.sortLinkedList(true));
+					middlewhereStringBuilder.append(middlewhere.bigOAL(true));
+					middlewhereStringBuilder.append(middlewhere.bigOLL(true));
+					
 					returnTime = middleware.sortArrayList(false);
 					System.out.println("The search time for arrayList bubble sort was: " + returnTime + " ms");
 					returnTime = middleware.sortLinkedList(false);
 					System.out.println("The time for LinkedList bubble sort was: " + returnTime + " ms");
-					
-					
+										
 					//Show Big Oh
 					System.out.println("The big O data is:\n\t ArrayList: " + middleware.bigOAL(false) + "\n\t Linked List: " + middleware.bigOLL(false));
-						
+					
+					//JUNIT
+					middlewhereStringBuilder.append(middlewhere.sortArrayList(false));
+					middlewhereStringBuilder.append(middlewhere.sortLinkedList(false));
+					middlewhereStringBuilder.append(middlewhere.bigOAL(false));
+					middlewhereStringBuilder.append(middlewhere.bigOLL(false));
+					
+					
+					
+					
 					searchOption = true;
 					while (searchOption){
-						System.out.println("What is the value you want to search for?");
+						System.out.println("What is the value you want to search for? [100,1000]");
 						System.out.print(">> ");
 						menuString = scan.next();
 						try
@@ -250,17 +295,23 @@ public class Display {
 							int searchInt = Integer.parseInt(menuString);
 							if (searchInt >= 100 && searchInt <= 1000){
 								//LINKED LIST
-								returnTime = middleware.searchLinkedList(searchInt, true);
-								System.out.println("The time for LinkedList Binary search was: " + returnTime + " ms");
-								returnTime = middleware.searchLinkedList(searchInt, false);
-								System.out.println("The time for LinkedList Linear search was: " + returnTime + " ms");
+								String timeString = middleware.searchLinkedList(searchInt, true);
+								System.out.println("The time for LinkedList Binary search was: " + timeString);
+								timeString = middleware.searchLinkedList(searchInt, false);
+								System.out.println("The time for LinkedList Linear search was: " + timeString );
 								
-								
+
 								//ARRAY LIST
-								returnTime = middleware.searchArrayList(searchInt, false);
-								System.out.println("The time for ArrayList Linear search was: " + returnTime + " ms");
-								returnTime = middleware.searchArrayList(searchInt, true);
-								System.out.println("The time for ArrayList Binary search was: " + returnTime + " ms");
+								timeString = middleware.searchArrayList(searchInt, false);
+								System.out.println("The time for ArrayList Linear search was: " + timeString);
+								timeString = middleware.searchArrayList(searchInt, true);
+								System.out.println("The time for ArrayList Binary search was: " + timeString);
+								
+								//JUNIT
+								middlewhereStringBuilder.append(middlewhere.searchLinkedList(searchInt, true));
+								middlewhereStringBuilder.append(middlewhere.searchLinkedList(searchInt, false));
+								middlewhereStringBuilder.append(middlewhere.searchArrayList(searchInt, true));
+								middlewhereStringBuilder.append(middlewhere.searchArrayList(searchInt, false));
 								
 								searchOption = false;
 							}
@@ -282,8 +333,7 @@ public class Display {
 			case "2": // Part 1: B
 				binaryOption = true;
 				while (binaryOption) {
-					System.out
-							.println("You have selected a Binary Tree. Please select the number of elements: ");
+					System.out.println("You have selected a Binary Tree. Please select the number of elements: ");
 
 					// / How many elements does the user want?
 					printElementChoices();
@@ -299,20 +349,25 @@ public class Display {
 					System.out.println("You have selected "
 							+ String.format("%,d", numOfElements)
 							+ " elements.");
-					// middleware.createBinary(numOfElements);
-
-					if (a == -1) {
+					
+					middleware.binaryTreeMW(numOfElements);
+					
+					//JUNIT TEST
+					middlewhere.binaryTreeMW(numOfElements);
+					
+					if (a == -1){
 						searchOption = true;
 						while (searchOption) {
-							System.out
-									.println("What is the first int to search?");
+							System.out.println("What is the first int to search?  DOMAIN: [400000, 800000]");
 							System.out.print(">> ");
 							try {
-								this.a = scan.nextInt();
-								if (a == -1) {
-									searchOption = true;
-								} else {
+								tempValueHold = scan.nextInt();
+								if (tempValueHold >= 400000 && tempValueHold <= 800000) {
+									this.a = tempValueHold;
 									searchOption = false;
+								} else {
+									searchOption = true;
+									System.out.println("Enter a valid value");
 								}
 							} catch (Exception e) {
 								System.out.println("Enter a valid value");
@@ -321,12 +376,17 @@ public class Display {
 
 						searchOption = true;
 						while (searchOption) {
-							System.out
-									.println("What is the 2nd int to search?");
+							System.out.println("What is the 2nd int to search?  DOMAIN: [200000, 800000]");
 							System.out.print(">> ");
 							try {
-								this.b = scan.nextInt();
-								searchOption = false;
+								tempValueHold = scan.nextInt();
+								if (tempValueHold >= 400000 && tempValueHold <= 800000) {
+									this.b = tempValueHold;
+									searchOption = false;
+								} else {
+									searchOption = true;
+									System.out.println("Enter a valid value");
+								}
 							} catch (Exception e) {
 								System.out.println("Enter a valid value");
 							}
@@ -334,21 +394,43 @@ public class Display {
 
 						searchOption = true;
 						while (searchOption) {
-							System.out
-									.println("What is the 3rd int to search?");
+							System.out.println("What is the 3rd int to search?  DOMAIN: [400000, 800000]");
 							System.out.print(">> ");
 							try {
-								this.c = scan.nextInt();
-								searchOption = false;
+								tempValueHold = scan.nextInt();
+								if (tempValueHold >= 400000 && tempValueHold <= 800000) {
+									this.c = tempValueHold;
+									searchOption = false;
+								} else {
+									searchOption = true;
+									System.out.println("Enter a valid value");
+								}
 							} catch (Exception e) {
 								System.out.println("Enter a valid value");
 							}
 						}
 					}
+					
 
+					//this.a = 516521;
+					//this.b = 767623;
+					//this.c = 612312;
+					
 					// PREORDER SEARCH
+					System.out.println("Preorder nodes searched: " + middleware.calculatePreorderNodesSearched(this.a, this.b, this.c));
+					
 					// ORDER SEARCH
-
+					System.out.println("In order nodes searched: " + middleware.calculateInOrderNodesSearched(this.a, this.b, this.c));
+					
+					System.out.println(middleware.calculateBigORelationship(numOfElements));
+					
+					//JUNIT TEST
+					middlewhereStringBuilder.append(middlewhere.calculatePreorderNodesSearched(this.a, this.b, this.c));
+					middlewhereStringBuilder.append(middlewhere.calculatePreorderSearchDuration(this.a, this.b, this.c));
+					middlewhereStringBuilder.append(middlewhere.calculateInOrderNodesSearched(this.a, this.b, this.c));
+					middlewhereStringBuilder.append(middlewhere.calculateInOrderSearchDuration(this.a, this.b, this.c));
+					middlewhereStringBuilder.append(middlewhere.calculateBigORelationship(numOfElements));
+					
 					binaryOption = false;
 				}
 				break;
@@ -371,76 +453,97 @@ public class Display {
 					System.out.println("You have selected " + String.format("%,d", numOfElements) + " elements.");
 					
 					middleware.makeHashTable(numOfElements);
+
+					//JUNIT TEST
+					middlewhere.makeHashTable(numOfElements);
+					
+
 						
-						if (a == -1){
-							searchOption = true;
-							while (searchOption){
-								System.out.println("What is the first int to search?");
-								System.out.print(">> ");
-								try{
-									this.a = scan.nextInt();
-									if (a == -1){
-										searchOption = true;
-									}
-									else {
+					if (a == -1){
+						searchOption = true;
+						while (searchOption) {
+							System.out.println("What is the first int to search?  DOMAIN: [400000, 800000]");
+							System.out.print(">> ");
+							try {
+								tempValueHold = scan.nextInt();
+								if (tempValueHold >= 400000 && tempValueHold <= 800000) {
+									this.a = tempValueHold;
 									searchOption = false;
-									}
-								}
-								catch (Exception e){
+								} else {
+									searchOption = true;
 									System.out.println("Enter a valid value");
 								}
-							}
-							
-							searchOption = true;
-							while (searchOption){
-								System.out.println("What is the 2nd int to search?");
-								System.out.print(">> ");
-								try{
-									this.b = scan.nextInt();
-									searchOption = false;
-								}
-								catch (Exception e){
-									System.out.println("Enter a valid value");
-								}
-							}
-							
-							searchOption = true;
-							while (searchOption){
-								System.out.println("What is the 3rd int to search?");
-								System.out.print(">> ");
-								try{
-									this.c = scan.nextInt();
-									searchOption = false;
-								}
-								catch (Exception e){
-									System.out.println("Enter a valid value");
-								}
+							} catch (Exception e) {
+								System.out.println("Enter a valid value");
 							}
 						}
-						
-						returnTime = middleware.searchValuesAndGetTime(a);
-						System.out.println("Searched: " + a + "\tHash Search Took: " + returnTime + " ns");
-						returnTime = middleware.searchValuesAndGetTime(b);
-						System.out.println("Searched: " + b + "\tHash Search Took: " + returnTime + " ns");
-						returnTime = middleware.searchValuesAndGetTime(c);
-						System.out.println("Searched: " + c + "\tHash Search Took: " + returnTime + " ns");
-						double hold = middleware.getBigO();
-						System.out.println("BigO: " + hold);
-						System.out.println("1 element searched");
-						hashTableOption = false;
 
+						searchOption = true;
+						while (searchOption) {
+							System.out.println("What is the 2nd int to search?  DOMAIN: [200000, 800000]");
+							System.out.print(">> ");
+							try {
+								tempValueHold = scan.nextInt();
+								if (tempValueHold >= 400000 && tempValueHold <= 800000) {
+									this.b = tempValueHold;
+									searchOption = false;
+								} else {
+									searchOption = true;
+									System.out.println("Enter a valid value");
+								}
+							} catch (Exception e) {
+								System.out.println("Enter a valid value");
+							}
+						}
+
+						searchOption = true;
+						while (searchOption) {
+							System.out.println("What is the 3rd int to search?  DOMAIN: [400000, 800000]");
+							System.out.print(">> ");
+							try {
+								tempValueHold = scan.nextInt();
+								if (tempValueHold >= 400000 && tempValueHold <= 800000) {
+									this.c = tempValueHold;
+									searchOption = false;
+								} else {
+									searchOption = true;
+									System.out.println("Enter a valid value");
+								}
+							} catch (Exception e) {
+								System.out.println("Enter a valid value");
+							}
+						}
+					}
+						
+						
+					returnTime = middleware.searchValuesAndGetTime(a);
+					System.out.println("Searched: " + a + "\tHash Search Took: " + returnTime + " ns");
+					returnTime = middleware.searchValuesAndGetTime(b);
+					System.out.println("Searched: " + b + "\tHash Search Took: " + returnTime + " ns");
+					returnTime = middleware.searchValuesAndGetTime(c);
+					System.out.println("Searched: " + c + "\tHash Search Took: " + returnTime + " ns");
+					double hold = middleware.getBigO();
+					System.out.println("BigO: " + hold);
+					System.out.println("1 element searched");
+					hashTableOption = false;
+					
+					middlewhereStringBuilder.append(middlewhere.searchValuesAndGetTime(a));
+					middlewhereStringBuilder.append(middlewhere.searchValuesAndGetTime(b));
+					middlewhereStringBuilder.append(middlewhere.searchValuesAndGetTime(c));
+					middlewhereStringBuilder.append(middlewhere.getBigO());
 				}
 				break;
 
 			case "44":
 			case "4":
-				System.out
-						.println("You have selected class schedule. Please enter students data: ");
+				System.out.println("You have selected class schedule. Please enter students data: ");
 
+				middleware.clearTheStack();
+				
 				if (menuString.equals("4"))
 					createClass();
 				else
-					// (menuString == "44")
+					// if (menuString == "44")
 					createClass2();
 
 
@@ -465,7 +568,16 @@ public class Display {
 						while (stayIn){
 							try {
 								cutStudentAmount = Integer.parseInt(tempToParse);
+								if (cutStudentAmount > totalStudentCount){
+									System.out.println(
+											"Need to enter valid number to cut students.");
+									System.out.print(">> ");
+									tempToParse = scan.next();
+								}
+								else{
+									
 								stayIn = false;
+								}
 							} catch (Exception e) {
 								System.out.println(
 										"Need to enter valid number to cut students.");
@@ -481,16 +593,20 @@ public class Display {
 						returnStuff = middleware.cutStudents(cutStudentAmount, true, 0);
 						System.out.println(returnStuff);
 						
-						//FOR JUNIT TEST
-						sb.append(returnStuff.trim());
-
+						//FOR OVERALL JUNIT TEST
+						sb.append(returnStuff.trim()); // FOR OVERALL TEST
 						
+											
 						System.out.println("The following students were not cut: ");
 						System.out.println();
 						
 						returnStuff = middleware.cutStudents(cutStudentAmount, false, 0);
 						System.out.println(returnStuff);
 						//sb.append(returnStuff);
+						
+						//FOR THE DUMB CLASS TEST
+						middlewhereStringBuilder.append(middlewhere.cutStudents(cutStudentAmount, true, 0));
+						middlewhereStringBuilder.append(middlewhere.cutStudents(cutStudentAmount, false, 0));
 						
 						studentOption = false;
 						break;
@@ -550,11 +666,17 @@ public class Display {
 						System.out.println(returnStuff);
 						sb.append(returnStuff.trim());
 						
+						//JUNIT TEST
+						middlewhereStringBuilder.append(middlewhere.cutStudents(totalStudentCount - cutStudentAmount - scholarshipStudent, false, cutStudentAmount));
+						
 						System.out.println("The following students did not receive scholarships: ");
 						System.out.println();
 						returnStuff = (middleware.cutStudents(totalStudentCount - cutStudentAmount - scholarshipStudent, true, cutStudentAmount));
 						System.out.println(returnStuff);
 						//sb.append(returnStuff);
+						
+						//JUNIT TEST
+						middlewhereStringBuilder.append(middlewhere.cutStudents(totalStudentCount - cutStudentAmount - scholarshipStudent, false, cutStudentAmount));
 						
 						studentOption = false;
 						break;
@@ -581,11 +703,13 @@ public class Display {
 					menuString = scan.next();
 					switch (menuString) {
 					case "1":
-						System.out.println("Reinstate to class");
+						System.out.println("Reinstate to people to the class");
 						
 						returnStuff = (middleware.getThesis());
 						System.out.println(returnStuff);
 						//sb.append(returnStuff);
+						
+						middlewhereStringBuilder.append(middlewhere.getThesis());
 						
 						studentOption = false;
 						break;
@@ -597,6 +721,8 @@ public class Display {
 						System.out.println("Invalid entry.");
 						continue;
 					}
+					middleware.clearTheStack();
+					System.out.println("CLASS DONE.");
 				}
 
 				break;
@@ -613,6 +739,8 @@ public class Display {
 
 
 		}
+		this.middlewhereString = middlewhereStringBuilder.toString();
+		
 		return sb.toString();
 	}
 
@@ -689,6 +817,9 @@ public class Display {
 		stayIn = true;
 
 		middleware.setStackSize(this.totalStudentCount);
+		
+		//JUNIT TEST
+		middlewhere.setStackSize(this.totalStudentCount);
 		
 		while (stayIn) {
 			System.out.println("Enter student data:");

@@ -37,6 +37,11 @@ public class HashClient {
 		String bigO = Long.toString(holdLong);
 		return bigO;
 	}	
+
+	/**
+	*Creates a HashTable.
+	*@param size
+	*/
 	public void createHashTable(int size) {
 		hashTable = new DatabaseHashTable(size);
 		hashTable.generateHashTable(size);
@@ -51,9 +56,5 @@ public class HashClient {
 		//System.out.println("The hash value to be retrieved is: " + hashValue);
 		int valueIndex = hashFinder.findHashIndex(value, hashTable.getHashArray());//hashFinder.findHashValue(hashValue, hashTableArraySize, hashTableArray);
 		return valueIndex;
-	}
-	
-	public static void main(String[] args) {
-		
 	}
 }
